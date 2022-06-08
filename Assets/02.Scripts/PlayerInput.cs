@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviourPun
 {
     public string moveAxisName = "Vertical"; //앞뒤 움직임을 위한 입력축 이름
     public string rotareAxisName = "Horizontal"; //좌우 회전을 위한 입력축 이름
@@ -18,6 +19,12 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // 로컬 플레이어가 아닌 경우 입력을 받지 않음
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         //게임오버 상태에서는 사용자 입력을 감지하지 않음
     if(Gamemanager.instance!=null && Gamemanager.instance.isGameover)
         {
@@ -35,7 +42,7 @@ public class PlayerInput : MonoBehaviour
         //fire 에 관한 입력감지
         fire = Input.GetButton(fireButtonName);
         //reload에 관한 입력감지
-        reload = Input.GetButtonDown(reloadButtonName);
+        reload = Input.GetButtonDown(reloadButtonName); 
     }
 
 }

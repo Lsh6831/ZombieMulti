@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;//UI 관련 코드
+using Photon.Pun;
 
 // 플레이어 캐릭터의 생명체로서의 동작을 담당
 public class PlayerHealth : LivingEntity
@@ -51,6 +52,7 @@ public class PlayerHealth : LivingEntity
     }
 
     // 체력 회복
+    [PunRPC]
     public override void RestoreHealth(float newHealth)
     // LivingEntity 의 RestoreHealth() 실행(체력 증가)
     { 
@@ -60,6 +62,7 @@ public class PlayerHealth : LivingEntity
         // SlowHealth.slowHealth(newHealth); 삭제 
     }
     // 대미지 처리
+    [PunRPC]
     public override void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
    
     {
@@ -92,6 +95,9 @@ public class PlayerHealth : LivingEntity
         // 플레이어 조작을 받는 컴포넌트 비활성화
         playerMovement.enabled=false;
         playerShooter.enabled=false;
+
+        // 5초 뒤에 리스폰
+        Invoke("Respawn",5f);
     }
     private void OnTriggerEnter(Collider other)
     //콜리전 개열은 콜리전 으로 받음 (둘의 차이는?)
@@ -105,12 +111,37 @@ public class PlayerHealth : LivingEntity
             //충돌한 상대방으로부터 IItem 컴포넌트 가져오는 데 성공했다면
             if(item!=null)
             {
+                // 호스트만 아이템 직접 사용 가능
+                // 호스트에서는 아이템 사용 후 사용된 아이템의 효과를 모든 클라이언트에 동기화 시킴
+                if(PhotonNetwork.IsMasterClient)
+                {                
                 //Use 메서드를 실행하여 아이템 사용
                 item.Use(gameObject);
+                }
                 // 아이템 습득 소리 재생
                 playerAudioPlayer.PlayOneShot(itemPickupClip);
             }
         }
+    }
+    public void Respawn()
+    {
+        // 로컬 플레이어만 직접 위치 변경 가능
+        if(photonView.IsMine)
+        {
+            // 원점에서 반경 5유닛 내부의 랜덤 위치 지정
+            Vector3 randomSpawnPos = Random.insideUnitSphere*5f;
+            // 랜덤 위치의 y 값을 0으로 변경
+            randomSpawnPos.y=0f;
+            
+            // 지정된 랜덤 위치로 이동
+            transform.position=randomSpawnPos;
+        }
+
+        //컴포넌트를 리셋하기 위해 게임 오브젝트를 잠시 껏다가 다시 켜기
+        // 컴포넌트의 OnDisable(),OnEanable() 메서드가 실행됨
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
+
     }
     
 }
