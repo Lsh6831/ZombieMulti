@@ -159,7 +159,7 @@ public class Gun : MonoBehaviourPun,IPunObservable
             if (target != null)
             {
                 //상대방의 OnDamage 함수를 실행시켜 상대방에 대미지 주기
-                target.OnDamage(damage, hit.point, hit.normal);
+                target.OnDamage(gunData.damage, hit.point, hit.normal);
                 //                               위치       방향
             }
             //레이가 충돌한 위치 저장
@@ -173,7 +173,7 @@ public class Gun : MonoBehaviourPun,IPunObservable
 
         }
             // 발사 이펙트 재생시작
-            PhotonView.RPC("shotEffectProcessOnClients",RpcTarget.All,hitPosition);
+            photonView.RPC("shotEffectProcessOnClients",RpcTarget.All,hitPosition);
 
     }
 

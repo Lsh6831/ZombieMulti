@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 108646884597796964}
   - component: {fileID: 4940199740629515840}
   - component: {fileID: 6741509113342645798}
+  - component: {fileID: 6455251787819092777}
   m_Layer: 0
   m_Name: AmmoPack
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3c7c048eab2cb4faeb524c779e2559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ammo: 30
+  ammo: 30
 --- !u!114 &6741509113342645798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +137,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 60
+--- !u!114 &6455251787819092777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045172808418600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 0}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1496639653374222
 GameObject:
   m_ObjectHideFlags: 0
