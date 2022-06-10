@@ -82,7 +82,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     // 룸에 참가 완료된 경우 자동 실행
-    public override void OnCreatedRoom()
+    public override void OnJoinedRoom()
     {
         // 접속 상태 표시
         connectionInfoText.text = "방 참가 성공";
